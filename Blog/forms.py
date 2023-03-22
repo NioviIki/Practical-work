@@ -7,7 +7,7 @@ class CreatePostForm(forms.ModelForm):
         widgets = {
           'text': forms.Textarea,
         }
-        fields = ('text', )
+        fields = ('text', 'is_published')
 
 
 class PostsForm(forms.ModelForm):
