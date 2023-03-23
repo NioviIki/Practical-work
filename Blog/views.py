@@ -55,9 +55,9 @@ class CreateComment(generic.FormView):
 
     def form_valid(self, form):
         self.success_url = reverse_lazy('Blog:detail_post', kwargs={'pk': self.kwargs['pk']})
+
         add_to_comment.apply_async(args=[str(self.request.user),
                                          form.cleaned_data["comment"],
-                                         self.kwargs['pk']])
+                                         self.kwargs['pk'],
+                                         self.success_url])
         return super().form_valid(form)
-
-
