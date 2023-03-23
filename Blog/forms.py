@@ -16,4 +16,4 @@ class PostsForm(forms.ModelForm):
         widgets = {
           'text': forms.Textarea,
         }
-        fields = ('user', 'text')
+        fields = ('owner', 'text')

@@ -5,12 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-
+{%  if error_massage %}
+{{ error_massage }}
+{% else %}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="accept">
 </form>
-
+{% endif %}
 </body>
 </html>
