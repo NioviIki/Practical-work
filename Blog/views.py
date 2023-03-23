@@ -1,4 +1,5 @@
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
+from .tasks import add_to_comment, add_to_post
 from django.views import generic
 from .models import Posts, Comments
 from .forms import CreatePostForm, CreateCommentForm
@@ -11,7 +12,11 @@ class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
     success_url = reverse_lazy("Blog:create_post")
 
     def form_valid(self, form):
-        Posts.objects.create(owner=self.request.user, text=form.cleaned_data["text"])
+        add_to_post.apply_async(args=[str(self.request.user),
+                                form.cleaned_data["text"],
+                                form.cleaned_data["subject"]])
+
+
         return super().form_valid(form)
 
 
@@ -49,10 +54,10 @@ class CreateComment(generic.FormView):
     template_name = 'Blog/create_comment_view.html'
 
     def form_valid(self, form):
-        Comments.objects.create(author=self.request.user,
-                                comment=form.cleaned_data["comment"],
-                                post=Posts.objects.get(pk=self.kwargs['pk']))
         self.success_url = reverse_lazy('Blog:detail_post', kwargs={'pk': self.kwargs['pk']})
+        add_to_comment.apply_async(args=[str(self.request.user),
+                                         form.cleaned_data["comment"],
+                                         self.kwargs['pk']])
         return super().form_valid(form)
 
 
