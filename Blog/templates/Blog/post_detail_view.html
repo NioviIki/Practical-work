@@ -9,6 +9,10 @@
     <h4>{{ object.text }}</h4>
     <p>{{ object.owner }}  {{ object.date }}</p>
 
+    <a href="{% url 'Blog:comment' object.id%}">
+        <input type="button" value="comment">
+    </a>
+
     {% for i in object.comments_set.all %}
         <p>{{ i.comment }}</p>
         <p>{{ i.author }}  {{ i.date }}</p>
