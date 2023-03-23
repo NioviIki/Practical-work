@@ -9,6 +9,15 @@ class CreatePostForm(forms.ModelForm):
         }
         fields = ('text', 'is_published')
 
+class AdminPostsForm(forms.ModelForm):
+    class Meta:
+        model = Posts
+        widgets = {
+          'text': forms.Textarea,
+        }
+        fields = ('owner', 'text', 'subject')
+
+
 
 class CreateCommentForm(forms.ModelForm):
     class Meta:
@@ -19,10 +28,12 @@ class CreateCommentForm(forms.ModelForm):
         fields = ('comment', )
 
 
-class PostsForm(forms.ModelForm):
+class AdminCommentForm(forms.ModelForm):
     class Meta:
-        model = Posts
+        model = Comments
         widgets = {
-          'text': forms.Textarea,
+            'comment': forms.Textarea,
         }
-        fields = ('owner', 'text', 'subject')
+        fields = ('comment', 'author', 'is_published')
+
+

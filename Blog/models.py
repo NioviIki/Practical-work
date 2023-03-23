@@ -16,7 +16,7 @@ class Comments(models.Model):
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
     author = models.CharField(max_length=50)
     date = models.DateTimeField(auto_now=True)
-
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return self.comment

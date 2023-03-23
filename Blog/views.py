@@ -43,6 +43,7 @@ class PostDetail(generic.DetailView):
             filter(pk=self.kwargs['pk']).filter(is_published=True)
 
 
+
 class CreateComment(generic.FormView):
     form_class = CreateCommentForm
     template_name = 'Blog/create_comment_view.html'
@@ -53,4 +54,5 @@ class CreateComment(generic.FormView):
                                 post=Posts.objects.get(pk=self.kwargs['pk']))
         self.success_url = reverse_lazy('Blog:detail_post', kwargs={'pk': self.kwargs['pk']})
         return super().form_valid(form)
+
 

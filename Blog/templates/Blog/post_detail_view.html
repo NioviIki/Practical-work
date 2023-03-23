@@ -14,8 +14,14 @@
     </a>
 
     {% for i in object.comments_set.all %}
+
+        {% if i.is_published %}
+
         <p>{{ i.comment }}</p>
         <p>{{ i.author }}  {{ i.date }}</p>
+
+        {% endif %}
+
     {% endfor %}
 
 
