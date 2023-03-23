@@ -5,9 +5,9 @@ from .forms import PostsForm
 
 @admin.register(Posts)
 class PostsAdmin(admin.ModelAdmin):
-    list_display = ('text', 'owner', 'date')
+    list_display = ('subject', 'owner', 'date')
     list_filter = ['date']
     form = PostsForm
-    search_fields = ['owner', 'date', 'text']
+    search_fields = ['owner', 'date', 'text', 'subject']
     date_hierarchy = 'date'
     list_per_page = 20

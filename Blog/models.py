@@ -10,3 +10,14 @@ class Posts(models.Model):
 
     def __str__(self):
         return f'{self.date.date()}, {self.date.time()}'
+
+class Comments(models.Model):
+    comment = models.CharField(max_length=150)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    author = models.CharField(max_length=50)
+    date = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.comment
+

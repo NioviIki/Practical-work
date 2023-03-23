@@ -1,7 +1,7 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
-from .models import Posts
-from .forms import CreatePostForm
+from .models import Posts, Comments
+from .forms import CreatePostForm, CreateCommentForm
 from django.contrib.auth import mixins
 
 
@@ -21,7 +21,7 @@ class UpdatePosts(mixins.LoginRequiredMixin, generic.UpdateView):
     form_class = CreatePostForm
     success_url = reverse_lazy("Blog:list_posts")
 
-    def get_queryset(self, *args, **kwargs):
+    def get_queryset(self):
         return Posts.objects.filter(pk=self.kwargs['pk']).filter(owner=self.request.user)
 
 
@@ -37,3 +37,20 @@ class ListPost(generic.ListView):
 class PostDetail(generic.DetailView):
     model = Posts
     template_name = 'Blog/post_detail_view.html'
+
+    def get_queryset(self):
+        return Posts.objects.select_related('owner').prefetch_related('comments_set').\
+            filter(pk=self.kwargs['pk']).filter(is_published=True)
+
+
+class CreateComment(generic.FormView):
+    form_class = CreateCommentForm
+    template_name = 'Blog/create_comment_view.html'
+
+    def form_valid(self, form):
+        Comments.objects.create(author=self.request.user,
+                                comment=form.cleaned_data["comment"],
+                                post=Posts.objects.get(pk=self.kwargs['pk']))
+        self.success_url = reverse_lazy('Blog:detail_post', kwargs={'pk': self.kwargs['pk']})
+        return super().form_valid(form)
+

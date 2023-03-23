@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
 
-        for i in range(50):
+        for _ in range(50):
             subject = []
             text = []
             for _ in range(3):
