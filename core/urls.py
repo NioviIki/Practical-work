@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from Blog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,6 +23,8 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
 
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/<int:pk>/', views.PublicProfile.as_view(), name='profile'),
+    path('accounts/<int:pk>/update/', views.UpdateProfile.as_view(), name='profile_update'),
 
     path('blog/', include('Blog.urls'))
 ]

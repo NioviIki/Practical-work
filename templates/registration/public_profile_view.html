@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>{{ object.username }}</h2>
+    <h4>{{ object.first_name }}  {{ object.last_name }}</h4>
+    <p>{{ object.date_joined }}</p>
+    {% for i in object.posts_set.all %}
+        <p><a href="{% url 'Blog:detail_post' i.id%}"> {{ i.subject }} </a> {{ i }}</p>
+    {%endfor%}
+</body>
+</html>

@@ -4,6 +4,7 @@ from django.views import generic
 from .models import Posts, Comments
 from .forms import CreatePostForm, CreateCommentForm
 from django.contrib.auth import mixins
+from django.contrib.auth.models import User
 
 
 class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
@@ -61,3 +62,25 @@ class CreateComment(generic.FormView):
                                          self.kwargs['pk'],
                                          self.success_url])
         return super().form_valid(form)
+
+
+class PublicProfile(generic.DetailView):
+    model = User
+    template_name = 'registration/public_profile_view.html'
+
+    def get_queryset(self):
+        return User.objects.prefetch_related('posts_set').filter(pk=self.kwargs['pk'])
+
+
+class UpdateProfile(mixins.LoginRequiredMixin, generic.UpdateView):
+    model = User
+    template_name = 'registration/update_profile.html'
+    fields = ('username', 'last_name', 'first_name', 'email')
+
+
+    def get_queryset(self):
+        return User.objects.filter(pk=self.kwargs['pk']).filter(username=self.request.user)
+    def form_valid(self, form):
+        self.success_url = reverse_lazy('profile', kwargs={'pk': self.kwargs['pk']})
+        return super().form_valid(form)
+
