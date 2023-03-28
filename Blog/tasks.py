@@ -4,10 +4,10 @@ from core import settings
 
 
 @shared_task()
-def send_massage(recipient_list, message,
+def send_massage(subject, recipient_list, message,
                  from_email=settings.EMAIL_HOST_USER):
 
-    return send_mail(subject=f'new message',
+    return send_mail(subject=subject,
                      message=message,
                      from_email=from_email,
                      recipient_list=[recipient_list],

@@ -11,5 +11,6 @@ urlpatterns = [
     path('list/', views.ListPost.as_view(), name='list_posts'),
     path('list/<int:pk>/', views.PostDetail.as_view(), name='detail_post'),
     path('list/<int:pk>/comment/', views.CreateComment.as_view(), name='comment'),
+    path('feedback/', views.ContactToAdmin.as_view(), name='feedback')
 ]
 

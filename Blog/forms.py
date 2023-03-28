@@ -40,4 +40,8 @@ class AdminCommentForm(forms.ModelForm):
         }
         fields = ('comment', 'author', 'is_published')
 
+class ContactToAdminForm(forms.Form):
+    subject = forms.CharField(max_length=30)
+    message = forms.CharField(max_length=200)
+
 

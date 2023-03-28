@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from core import settings
 from django.views import generic
 from .models import Posts, Comments
-from .forms import CreatePostForm, CreateCommentForm
+from .forms import CreatePostForm, CreateCommentForm, ContactToAdminForm
 from django.contrib.auth import mixins
 from django.contrib.auth.models import User
 
@@ -20,7 +20,7 @@ class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
                              synopsis=form.cleaned_data['synopsis'],
                              image=form.cleaned_data['image']
                              )
-        send_massage.apply_async(args=[settings.EMAIL_HOST_USER, f'New Post'])
+        send_massage.apply_async(args=[f'new message', settings.EMAIL_HOST_USER, f'New Post'])
         return super().form_valid(form)
 
 
@@ -60,8 +60,8 @@ class CreateComment(generic.FormView):
     def form_valid(self, form):
         self.success_url = reverse_lazy('Blog:detail_post', kwargs={'pk': self.kwargs['pk']})
         Comments.objects.create(author=self.request.user, comment=form.cleaned_data["comment"], post=Posts.objects.get(pk=self.kwargs['pk']))
-        send_massage.apply_async(args=[settings.EMAIL_HOST_USER, f'new message'])
-        send_massage.apply_async(args=[Posts.objects.get(pk=self.kwargs['pk']).owner.email, self.success_url])
+        send_massage.apply_async(args=[f'new message', settings.EMAIL_HOST_USER, f'new message'])
+        send_massage.apply_async(args=[f'new message', Posts.objects.get(pk=self.kwargs['pk']).owner.email, self.success_url])
         return super().form_valid(form)
 
 
@@ -85,3 +85,12 @@ class UpdateProfile(mixins.LoginRequiredMixin, generic.UpdateView):
         self.success_url = reverse_lazy('profile', kwargs={'pk': self.kwargs['pk']})
         return super().form_valid(form)
 
+class ContactToAdmin(mixins.LoginRequiredMixin, generic.FormView):
+    form_class =ContactToAdminForm
+    template_name = 'Blog/contact_to_admin.html'
+    success_url = reverse_lazy('Blog:feedback')
+
+    def form_valid(self, form):
+        text = f'{form.cleaned_data["message"]} \n By {self.request.user}'
+        send_massage.apply_async(args=[form.cleaned_data['subject'], settings.EMAIL_HOST_USER, text])
+        return super().form_valid(form)
