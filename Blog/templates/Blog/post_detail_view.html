@@ -6,7 +6,9 @@
 </head>
 <body>
     <h3>{{ object.subject }}</h3>
+    <h3>{{ object.synopsis }}</h3>
     <h4>{{ object.text }}</h4>
+    <img src="{{ object.image.url }}">
     <p>{{ object.owner }}  {{ object.date }}</p>
 
     <a href="{% url 'Blog:comment' object.id%}">

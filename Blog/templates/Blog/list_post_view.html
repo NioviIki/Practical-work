@@ -8,7 +8,7 @@
 
 {%  for i in object_list %}
     <p><a href="{% url 'Blog:detail_post' i.id%}"> {{ i.subject }}</a></p>
-    <p>{{ i.text }}</p>
+    <p>{{ i.synopsis }}</p>
     <p>{{ i.owner }}  {{ i.date }}</p>
 {% endfor %}
 

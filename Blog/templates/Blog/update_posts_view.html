@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 
-<form method="post">
+<form action="{% url 'Blog:update_post' object.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <img src="{{ object.image.url }}">
     {{ form.as_p }}
     <input type="submit" value="accept">
 </form>

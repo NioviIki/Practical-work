@@ -16,7 +16,10 @@ class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
     success_url = reverse_lazy("Blog:create_post")
 
     def form_valid(self, form):
-        Posts.objects.create(owner=User.objects.get(username=self.request.user), text=form.cleaned_data["text"], subject=form.cleaned_data["subject"])
+        Posts.objects.create(owner=User.objects.get(username=self.request.user), text=form.cleaned_data["text"], subject=form.cleaned_data["subject"],
+                             synopsis=form.cleaned_data['synopsis'],
+                             image=form.cleaned_data['image']
+                             )
         send_massage.apply_async(args=[settings.EMAIL_HOST_USER, f'New Post'])
         return super().form_valid(form)
 

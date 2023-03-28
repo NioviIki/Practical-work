@@ -7,7 +7,7 @@ class CreatePostForm(forms.ModelForm):
         model = Posts
         widgets = {
             'text': forms.Textarea,
-            'synopsis': forms.Textarea
+            'synopsis': forms.Textarea,
         }
         fields = ('subject', 'synopsis', 'text', 'is_published', 'image',)
 
@@ -15,9 +15,10 @@ class AdminPostsForm(forms.ModelForm):
     class Meta:
         model = Posts
         widgets = {
-          'text': forms.Textarea,
+            'text': forms.Textarea,
+            'synopsis': forms.Textarea
         }
-        fields = ('owner', 'text', 'subject')
+        fields = ('owner', 'synopsis', 'text', 'subject', 'image')
 
 
 
