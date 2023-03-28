@@ -1,6 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
-from core import settings
+from django.db import models
+
 
 class Posts(models.Model):
     subject = models.CharField(max_length=40)
@@ -14,6 +14,7 @@ class Posts(models.Model):
     def __str__(self):
         return f'{self.date.date()}, {self.date.time()}'
 
+
 class Comments(models.Model):
     comment = models.CharField(max_length=150)
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
@@ -23,4 +24,3 @@ class Comments(models.Model):
 
     def __str__(self):
         return self.comment
-

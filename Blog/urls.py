@@ -1,8 +1,7 @@
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
 
 from . import views
+
 app_name = 'Blog'
 
 urlpatterns = [
@@ -13,4 +12,3 @@ urlpatterns = [
     path('list/<int:pk>/comment/', views.CreateComment.as_view(), name='comment'),
     path('feedback/', views.ContactToAdmin.as_view(), name='feedback')
 ]
-

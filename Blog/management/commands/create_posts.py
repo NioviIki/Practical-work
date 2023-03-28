@@ -1,13 +1,18 @@
-from django.core.management import BaseCommand
-from faker import Faker
-from Blog.models import Posts
 import random
+
+from Blog.models import Posts
+
 from django.contrib.auth.models import User
+from django.core.management import BaseCommand
+
+from faker import Faker
+
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('create_post', nargs="?",
-                             help='Create random posts')
+                            help='Create random posts')
+
     def handle(self, *args, **options):
         fake = Faker()
 
@@ -18,6 +23,7 @@ class Command(BaseCommand):
                 subject += fake.word()
                 text += fake.paragraphs()
             Posts.objects.create(subject=''.join(subject),
+                                 synopsis=fake.paragraphs(),
                                  text=" ".join(text),
                                  is_published=random.choice([True, False]),
                                  owner=User.objects.get(pk=random.randint(1, 20))

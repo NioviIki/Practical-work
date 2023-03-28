@@ -1,6 +1,7 @@
 from django import forms
-from .models import Posts, Comments
-# from .tasks import add_to_comment
+
+from .models import Comments, Posts
+
 
 class CreatePostForm(forms.ModelForm):
     class Meta:
@@ -10,6 +11,7 @@ class CreatePostForm(forms.ModelForm):
             'synopsis': forms.Textarea,
         }
         fields = ('subject', 'synopsis', 'text', 'is_published', 'image',)
+
 
 class AdminPostsForm(forms.ModelForm):
     class Meta:
@@ -21,7 +23,6 @@ class AdminPostsForm(forms.ModelForm):
         fields = ('owner', 'synopsis', 'text', 'subject', 'image')
 
 
-
 class CreateCommentForm(forms.ModelForm):
     class Meta:
         model = Comments
@@ -29,7 +30,6 @@ class CreateCommentForm(forms.ModelForm):
             'comment': forms.Textarea,
         }
         fields = ('comment', )
-
 
 
 class AdminCommentForm(forms.ModelForm):
@@ -40,8 +40,7 @@ class AdminCommentForm(forms.ModelForm):
         }
         fields = ('comment', 'author', 'is_published')
 
+
 class ContactToAdminForm(forms.Form):
     subject = forms.CharField(max_length=30)
     message = forms.CharField(max_length=200)
-
-

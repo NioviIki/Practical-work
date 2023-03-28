@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-from .models import Posts, Comments
-from .forms import AdminPostsForm, AdminCommentForm
+from .forms import AdminCommentForm, AdminPostsForm
+from .models import Comments, Posts
+
 
 @admin.register(Posts)
 class PostsAdmin(admin.ModelAdmin):
@@ -12,8 +13,8 @@ class PostsAdmin(admin.ModelAdmin):
     date_hierarchy = 'date'
     list_per_page = 20
 
+
 @admin.register(Comments)
 class CommentAdmin(admin.ModelAdmin):
     form = AdminCommentForm
     list_display = ('author', 'date', 'is_published', 'comment')
-
