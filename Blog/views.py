@@ -1,10 +1,13 @@
 from django.urls import reverse_lazy
-from .tasks import add_to_comment, add_to_post
+
+from core import settings
 from django.views import generic
 from .models import Posts, Comments
 from .forms import CreatePostForm, CreateCommentForm
 from django.contrib.auth import mixins
 from django.contrib.auth.models import User
+
+from .tasks import send_massage
 
 
 class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
@@ -13,11 +16,8 @@ class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
     success_url = reverse_lazy("Blog:create_post")
 
     def form_valid(self, form):
-        add_to_post.apply_async(args=[str(self.request.user),
-                                form.cleaned_data["text"],
-                                form.cleaned_data["subject"]])
-
-
+        Posts.objects.create(owner=User.objects.get(username=self.request.user), text=form.cleaned_data["text"], subject=form.cleaned_data["subject"])
+        send_massage.apply_async(args=[settings.EMAIL_HOST_USER, f'New Post'])
         return super().form_valid(form)
 
 
@@ -56,11 +56,9 @@ class CreateComment(generic.FormView):
 
     def form_valid(self, form):
         self.success_url = reverse_lazy('Blog:detail_post', kwargs={'pk': self.kwargs['pk']})
-
-        add_to_comment.apply_async(args=[str(self.request.user),
-                                         form.cleaned_data["comment"],
-                                         self.kwargs['pk'],
-                                         self.success_url])
+        Comments.objects.create(author=self.request.user, comment=form.cleaned_data["comment"], post=Posts.objects.get(pk=self.kwargs['pk']))
+        send_massage.apply_async(args=[settings.EMAIL_HOST_USER, f'new message'])
+        send_massage.apply_async(args=[Posts.objects.get(pk=self.kwargs['pk']).owner.email, self.success_url])
         return super().form_valid(form)
 
 
