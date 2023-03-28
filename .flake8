@@ -1,0 +1,13 @@
+[flake8]
+
+max_line_length = 93
+
+exclude =
+    migrations,
+    venv,
+    .env,
+    tests.py,
+    .gitignore,
+    db.sqlite3,
+    README.md,
+    .txt

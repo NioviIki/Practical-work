@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>{{ object.subject }}</h3>
+    <h3>{{ object.synopsis }}</h3>
+    <h4>{{ object.text }}</h4>
+    <img src="{{ object.image.url }}">
+    <p>{{ object.owner }}  {{ object.date }}</p>
+
+    <a href="{% url 'Blog:comment' object.id%}">
+        <input type="button" value="comment">
+    </a>
+
+    {% for i in object.comments_set.all %}
+
+        {% if i.is_published %}
+
+        <p>{{ i.comment }}</p>
+        <p>{{ i.author }}  {{ i.date }}</p>
+
+        {% endif %}
+
+    {% endfor %}
+
+
+</body>
+</html>
