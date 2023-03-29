@@ -21,4 +21,6 @@ class Command(BaseCommand):
                                     post=Posts.objects.get(pk=random.randint(1, 50)),
                                     author=random.choice([
                                         'AnonymousUser',
-                                        User.objects.get(pk=random.randint(1, 20))]))
+                                        User.objects.get(pk=random.randint(1, 20))]),
+                                    is_published=random.choice([True, False])
+                                    )
