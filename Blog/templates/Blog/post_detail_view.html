@@ -8,7 +8,9 @@
     <h3>{{ object.subject }}</h3>
     <h3>{{ object.synopsis }}</h3>
     <h4>{{ object.text }}</h4>
-    <img src="{{ object.image.url }}">
+    {% if object.image %}
+        <img src="{{ object.image.url }}">
+    {% endif %}
     <p>{{ object.owner }}  {{ object.date }}</p>
 
     <a href="{% url 'Blog:comment' object.id%}">
