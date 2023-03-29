@@ -20,7 +20,8 @@ class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
                              text=form.cleaned_data["text"],
                              subject=form.cleaned_data["subject"],
                              synopsis=form.cleaned_data['synopsis'],
-                             image=form.cleaned_data['image']
+                             image=form.cleaned_data['image'],
+                             is_published=form.cleaned_data['is_published']
                              )
         send_massage.apply_async(args=['new message',
                                        settings.EMAIL_HOST_USER, 'New Post'])
