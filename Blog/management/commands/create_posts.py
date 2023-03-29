@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 subject += fake.word()
                 text += fake.paragraphs()
             Posts.objects.create(subject=''.join(subject),
-                                 synopsis=fake.paragraphs(),
+                                 synopsis=fake.paragraphs()[0],
                                  text=" ".join(text),
                                  is_published=random.choice([True, False]),
                                  owner=User.objects.get(pk=random.randint(1, 20))
