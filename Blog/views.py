@@ -4,6 +4,7 @@ from django.contrib.auth import mixins
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views import generic
+from django.core.mail import send_mail
 
 from .forms import ContactToAdminForm, CreateCommentForm, CreatePostForm
 from .models import Comments, Posts
@@ -20,10 +21,19 @@ class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
                              text=form.cleaned_data["text"],
                              subject=form.cleaned_data["subject"],
                              synopsis=form.cleaned_data['synopsis'],
-                             image=form.cleaned_data['image']
+                             image=form.cleaned_data['image'],
+                             is_published=form.cleaned_data['is_published']
                              )
-        send_massage.apply_async(args=['new message',
-                                       settings.EMAIL_HOST_USER, 'New Post'])
+
+        # send_mail(subject='new message',
+        #           message='New Post',
+        #           from_email=settings.EMAIL_HOST_USER,
+        #           recipient_list=settings.EMAIL_HOST_USER,
+        #           auth_password=settings.EMAIL_HOST_PASSWORD)
+
+        # send_massage.apply_async(args=['new message',
+        #                                settings.EMAIL_HOST_USER, 'New Post'])
+
         return super().form_valid(form)
 
 
@@ -65,12 +75,25 @@ class CreateComment(generic.FormView):
                                 comment=form.cleaned_data["comment"],
                                 post=Posts.objects.get(pk=self.kwargs['pk'])
                                 )
-        send_massage.apply_async(args=['new message',
-                                       settings.EMAIL_HOST_USER,
-                                       'new message'])
-        send_massage.apply_async(args=['new message',
-                                       Posts.objects.get(pk=self.kwargs['pk']).owner.email,
-                                       self.success_url])
+        send_mail(subject='new message',
+                  message='new message',
+                  from_email=settings.EMAIL_HOST_USER,
+                  recipient_list=settings.EMAIL_HOST_USER,
+                  auth_password=settings.EMAIL_HOST_PASSWORD)
+
+        send_mail(subject='new message',
+                  message=self.success_url,
+                  from_email=settings.EMAIL_HOST_USER,
+                  recipient_list=Posts.objects.get(pk=self.kwargs['pk']).owner.email,
+                  auth_password=settings.EMAIL_HOST_PASSWORD)
+
+        # send_massage.apply_async(args=['new message',
+        #                                settings.EMAIL_HOST_USER,
+        #                                'new message'])
+        # send_massage.apply_async(args=['new message',
+        #                                Posts.objects.get(pk=self.kwargs['pk']).owner.email,
+        #                                self.success_url])
+
         return super().form_valid(form)
 
 
@@ -102,8 +125,15 @@ class ContactToAdmin(mixins.LoginRequiredMixin, generic.FormView):
 
     def form_valid(self, form):
         text = f'{form.cleaned_data["message"]} \n By {self.request.user}'
-        send_massage.apply_async(args=[form.cleaned_data['subject'],
-                                       settings.EMAIL_HOST_USER,
-                                       text]
-                                 )
+
+        send_mail(subject=form.cleaned_data['subject'],
+                  message=text,
+                  from_email=settings.EMAIL_HOST_USER,
+                  recipient_list=settings.EMAIL_HOST_USER,
+                  auth_password=settings.EMAIL_HOST_PASSWORD)
+
+        # send_massage.apply_async(args=[form.cleaned_data['subject'],
+        #                                settings.EMAIL_HOST_USER,
+        #                                text])
+
         return super().form_valid(form)
