@@ -8,7 +8,7 @@ class Posts(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
-    image = models.ImageField()
+    image = models.ImageField(blank=True)
     synopsis = models.CharField(max_length=50)
 
     def __str__(self):
