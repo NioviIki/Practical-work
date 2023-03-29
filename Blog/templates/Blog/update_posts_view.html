@@ -9,7 +9,9 @@
 
 <form action="{% url 'Blog:update_post' object.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <img src="{{ object.image.url }}">
+    {% if object.image %}
+        <img src="{{ object.image.url }}">
+    {% endif %}
     {{ form.as_p }}
     <input type="submit" value="accept">
 </form>
