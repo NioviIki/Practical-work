@@ -10,6 +10,16 @@ from .models import Comments, Posts
 from .tasks import send_massage
 
 
+class RegisterFormView(generic.FormView):
+    template_name = 'registration/register.html'
+    form_class = RegisterForm
+    success_url = reverse_lazy("Blog:list_posts")
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+
 class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
     template_name = 'Blog/create_post_view.html'
     form_class = CreatePostForm
