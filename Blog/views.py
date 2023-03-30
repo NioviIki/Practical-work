@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import ContactToAdminForm, CreateCommentForm, CreatePostForm
+from .forms import ContactToAdminForm, CreateCommentForm, CreatePostForm, RegisterForm
 from .models import Comments, Posts
 from .tasks import send_massage
 
