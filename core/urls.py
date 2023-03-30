@@ -23,12 +23,17 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('__debug__/', include('debug_toolbar.urls')),
-
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/<int:pk>/', views.PublicProfile.as_view(), name='profile'),
+    path("accounts/register/", views.RegisterFormView.as_view(), name="register"),
     path('accounts/<int:pk>/update/', views.UpdateProfile.as_view(), name='profile_update'),
 
     path('blog/', include('Blog.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
               static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+    path('__debug__/', include(debug_toolbar.urls))
+        ]
