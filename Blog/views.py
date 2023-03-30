@@ -14,7 +14,7 @@ from .tasks import send_massage
 class RegisterFormView(generic.FormView):
     template_name = 'registration/register.html'
     form_class = RegisterForm
-    success_url = reverse_lazy("new_hw:book_list")
+    success_url = reverse_lazy("Blog:list_posts")
 
     def form_valid(self, form):
         form.save()
