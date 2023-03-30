@@ -6,10 +6,19 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.core.mail import send_mail
 
-from .forms import ContactToAdminForm, CreateCommentForm, CreatePostForm
+from .forms import ContactToAdminForm, CreateCommentForm, CreatePostForm, RegisterForm
 from .models import Comments, Posts
 from .tasks import send_massage
 
+
+class RegisterFormView(generic.FormView):
+    template_name = 'registration/register.html'
+    form_class = RegisterForm
+    success_url = reverse_lazy("new_hw:book_list")
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 class CreatePosts(mixins.LoginRequiredMixin, generic.FormView):
     template_name = 'Blog/create_post_view.html'

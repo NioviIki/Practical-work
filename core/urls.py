@@ -25,6 +25,7 @@ urlpatterns = [
 
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/<int:pk>/', views.PublicProfile.as_view(), name='profile'),
+    path("accounts/register/", views.RegisterFormView.as_view(), name="register"),
     path('accounts/<int:pk>/update/', views.UpdateProfile.as_view(), name='profile_update'),
 
     path('blog/', include('Blog.urls'))
