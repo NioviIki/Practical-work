@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends 'base.html' %}
+{% load static %}
+
 <body>
+    {% block extra_js %}    {#бустреп в файле base.html #}
+        <script src="{% static 'js/book.js' %}"></script>    {#js в статике. Позволяет нажать на кнопку#}
+    {% endblock %}
+{% block content %}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="accept">
 </form>
 </body>
-</html>
+{% endblock %}

@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends 'base.html' %}
+{% load static %}
+
 <body>
+    {% block extra_js %}    {#бустреп в файле base.html #}
+        <script src="{% static 'js/book.js' %}"></script>    {#js в статике. Позволяет нажать на кнопку#}
+    {% endblock %}
+{% block content %}
+
+
+
+
+
+  <div class="modal fade" id="modal-book"> {#позволяет вызвать всплывающее окно #}
+      <div class="modal-dialog">
+      <div class="modal-content">
+
+      </div>
+    </div>
+  </div>
+
 
 {%  for i in object_list %}
     <p><a href="{% url 'Blog:detail_post' i.id%}"> {{ i.subject }}</a></p>
@@ -30,5 +44,120 @@
     </span>
 </div>
 
-</body>
-</html>
+{% endblock %}
+
+
+
+{#    12#}
+{#      <div class="modal fade" id="modal-book"> {#позволяет вызвать всплывающее окно #}
+{#          12#}
+{#        <div class="modal-dialog">#}
+{#            12#}
+{#          <div class="modal-content">#}
+{#              12#}
+{##}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{##}
+{##}
+{##}
+{##}
+{#{%  for i in object_list %}#}
+{#    <p><a href="{% url 'Blog:detail_post' i.id%}"> {{ i.subject }}</a></p>#}
+{#    <p>{{ i.synopsis }}</p>#}
+{#    <p>{{ i.owner }}  {{ i.date }}</p>#}
+{#{% endfor %}#}
+{##}
+{#<div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if page_obj.has_previous %}#}
+{#            <a href="?page=1">&laquo; first</a>#}
+{#            <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if page_obj.has_next %}#}
+{#            <a href="?page={{ page_obj.next_page_number }}">next</a>#}
+{#            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}
+{##}
+{##}
+
+{#{% endblock %}#}
+{#</body>#}
+{#</html>#}
+
+{#{% block extra_js %}    {#бустреп в файле base.html#}
+{#  <script src="{% static 'js/books.js' %}"></script>    {#js в статике. Позволяет нажать на кнопку#}
+{#{% endblock %}#}
+
+{#{% block content %}#}
+{#  <h1 class="page-header">Books</h1>#}
+{##}
+{#  <p>   {# сама кнопка создания#}
+{#    <button type="button" class="btn btn-primary js-create-book" data-url="{% url 'book_create' %}">#}
+{#      <span class="glyphicon glyphicon-plus"></span>#}
+{#      New book#}
+{#    </button>#}
+{#  </p>#}
+{##}
+{#  <table class="table" id="book-table">#}
+{#    <thead>#}
+{#    <tr>#}
+{#      <th>#</th>#}
+{#      <th>Title</th>#}
+{#      <th>Author</th>#}
+{#      <th>Type</th>#}
+{#      <th>Publication date</th>#}
+{#      <th>Pages</th>#}
+{#      <th>Price</th>#}
+{#      <th></th>#}
+{#    </tr>#}
+{#    </thead>#}
+{#    <tbody>#}
+{#    {% include 'books/includes/partial_book_list.html' %} {#html с вызовом базы даных#}
+{#    </tbody>#}
+{#  </table>#}
+{##}
+{#  <div class="modal fade" id="modal-book"> {#позволяет вызвать всплывающее окно#}
+{#    <div class="modal-dialog">#}
+{#      <div class="modal-content">#}
+{##}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#{% endblock %}#}
+
+
+{#{% extends 'base.html' %}#}
+{##}
+{#{% load static %}   # грузит с папки статика статику#}
+{##}
+{#{% block extra_js %}    {#бустреп в файле base.html #}
+{#  <script src="{% static 'js/book.js' %}"></script>    {#js в статике. Позволяет нажать на кнопку #}
+{#{% endblock %}#}
+
+{#{% block content %}#}
+{##}
+{#  <p>   {# сама кнопка создания #}
+{#    <button type="button" class="btn btn-primary js-create-book" data-url="{% url 'Blog:feedback' %}">#}
+{#      <span class="glyphicon glyphicon-plus"></span>#}
+{#      contuct us#}
+{#    </button>#}
+{#  </p>#}
+{##}
+{##}
+{#  <div class="modal fade" id="modal-book"> {#позволяет вызвать всплывающее окно#}
+{#      <div class="modal-dialog">#}
+{#      <div class="modal-content">#}
+{##}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#{% endblock %}#}
