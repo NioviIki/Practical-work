@@ -118,14 +118,6 @@ class ContactToAdmin(mixins.LoginRequiredMixin, generic.FormView):
         data['html_form'] = render_to_string('Blog/contact_to_admin.html',  {'form': self.get_form()}, request=request)
         return JsonResponse(data)
 
-    # def post(self, request, *args, **kwargs):
-    #     form = self.get_form()
-    #     if form.is_valid():
-    #         return self.form_valid(form)
-    #     else:
-    #         return self.form_invalid(form)
-
-
     def form_valid(self, form):
         text = f'{form.cleaned_data["message"]} \n By {self.request.user}'
         send_massage.apply_async(args=[form.cleaned_data['subject'],
@@ -134,11 +126,7 @@ class ContactToAdmin(mixins.LoginRequiredMixin, generic.FormView):
                                  )
         return super().form_valid(form)
 
-def save_book_form(request, form, template_name):
-    data = dict()
-    context = {'form': form}
-    data['html_form'] = render_to_string(template_name, context, request=request)
-    return JsonResponse(data)
+
 
 
 

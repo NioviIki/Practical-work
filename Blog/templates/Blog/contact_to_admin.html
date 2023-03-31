@@ -1,15 +1,11 @@
-{% extends 'base.html' %}
-{% load static %}
+
 
 <body>
-    {% block extra_js %}    {#бустреп в файле base.html #}
-        <script src="{% static 'js/book.js' %}"></script>    {#js в статике. Позволяет нажать на кнопку#}
-    {% endblock %}
-{% block content %}
-<form method="post">
+
+
+<form method="post" action="{% url 'Blog:feedback' %}" class="js-book-create-form">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="accept">
 </form>
 </body>
-{% endblock %}
