@@ -6,6 +6,7 @@ from django.contrib.auth import mixins
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views import generic
+from django.contrib.messages.views import SuccessMessageMixin
 
 from .forms import ContactToAdminForm, CreateCommentForm, CreatePostForm, RegisterForm
 from .models import Comments, Posts
@@ -108,10 +109,11 @@ class UpdateProfile(mixins.LoginRequiredMixin, generic.UpdateView):
         return super().form_valid(form)
 
 
-class ContactToAdmin(mixins.LoginRequiredMixin, generic.FormView):
+class ContactToAdmin(mixins.LoginRequiredMixin, SuccessMessageMixin, generic.FormView):
     form_class = ContactToAdminForm
     template_name = 'Blog/contact_to_admin.html'
     success_url = reverse_lazy('Blog:feedback')
+    success_message = 'Accepted'
 
     def get(self, request, *args, **kwargs):
         data = dict()
@@ -125,8 +127,3 @@ class ContactToAdmin(mixins.LoginRequiredMixin, generic.FormView):
                                        text]
                                  )
         return super().form_valid(form)
-
-
-
-
-

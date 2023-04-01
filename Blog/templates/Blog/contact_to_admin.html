@@ -1,13 +1,21 @@
 <body>
+
 <form method="post" action="{% url 'Blog:feedback' %}" class="js-book-create-form">
     {% csrf_token %}
       <div class="modal-body">
     {{ form.as_p }}
       </div>
+    {% if messages %}
+<div class="alert alert-success">
+    {% for m in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ m }}</li>
+    {% endfor %}
+</div>
+{% endif %}
       <div class="modal-footer">
-
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     <button type="submit" class="btn btn-primary">Send</button>
+
   </div>
 </form>
 </body>
