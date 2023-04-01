@@ -45,13 +45,4 @@ $(function () {
   // .js-create-book -- класс в бук листе. баттон
   $(".js-create-book").click(loadForm); //get
   $("#modal-book").on("submit", ".js-book-create-form", saveForm); //post
-
-  // Update book
-  $("#book-table").on("click", ".js-update-book", loadForm);
-  $("#modal-book").on("submit", ".js-book-update-form", saveForm);
-
-  // Delete book
-  $("#book-table").on("click", ".js-delete-book", loadForm);
-  $("#modal-book").on("submit", ".js-book-delete-form", saveForm);
-
 });

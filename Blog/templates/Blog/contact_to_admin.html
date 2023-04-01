@@ -1,11 +1,13 @@
-
-
 <body>
-
-
 <form method="post" action="{% url 'Blog:feedback' %}" class="js-book-create-form">
     {% csrf_token %}
+      <div class="modal-body">
     {{ form.as_p }}
-    <input type="submit" value="accept">
+      </div>
+      <div class="modal-footer">
+
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Send</button>
+  </div>
 </form>
 </body>

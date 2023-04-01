@@ -1,11 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
 <body>
+
+    {% block extra_js %}    {#бустреп в файле base.html #}
+        <script src="{% static 'js/book.js' %}"></script>    {#js в статике. Позволяет нажать на кнопку#}
+    {% endblock %}
+{% block content %}
+  <div class="modal fade" id="modal-book"> {#позволяет вызвать всплывающее окно #}
+      <div class="modal-dialog">
+      <div class="modal-content">
+
+      </div>
+    </div>
+  </div>
+
     <h3>{{ object.subject }}</h3>
     <h3>{{ object.synopsis }}</h3>
     <h4>{{ object.text }}</h4>
@@ -31,4 +40,4 @@
 
 
 </body>
-</html>
+{% endblock %}
